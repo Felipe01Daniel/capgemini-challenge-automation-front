@@ -1,0 +1,28 @@
+{
+  "name": "capgemini-challenge-automation-front",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "engines": {
+    "node": "v22.13.1"
+  },
+  "scripts": {
+    "cypres:web": "npx cypress open",
+    "cypress:headless": "npx cypress run --browser electron"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Felipe01Daniel/capgemini-challenge-automation-front.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Felipe01Daniel/capgemini-challenge-automation-front/issues"
+  },
+  "homepage": "https://github.com/Felipe01Daniel/capgemini-challenge-automation-front#readme",
+  "description": "",
+  "devDependencies": {
+    "cypress": "^14.4.1"
+  }
+}
