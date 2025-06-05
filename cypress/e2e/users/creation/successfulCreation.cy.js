@@ -8,7 +8,7 @@ describe('Criação de Usuário - Sucesso', () => {
     cy.fixture('users/validUser').as('validUser');
   });
 
-  it('Deve criar um novo usuário com sucesso', function () {
+  it('Criar um novo usuário com sucesso', function () {
     const { nome, email } = this.validUser;
 
     userPage.createUser(nome, email);
