@@ -23,3 +23,28 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+
+Cypress.Commands.add('createUser', (name, email) => {
+  cy.visit('/user.html');
+  cy.get('#name').type(name);
+  cy.get('#email').type(email);
+  cy.contains('Salvar').click();
+});
+
+Cypress.Commands.add('deleteUser', (email) => {
+  cy.visit('/user.html');
+  cy.get('tr').contains(email).parent().contains('Excluir').click();
+});
+
+Cypress.Commands.add('createTicket', (title, description) => {
+  cy.visit('/tickets');
+  cy.get('#title').type(title);
+  cy.get('#description').type(description);
+  cy.contains('Salvar').click();
+});
+
+Cypress.Commands.add('deleteTicket', (title) => {
+  cy.visit('/tickets');
+  cy.get('tr').contains(title).parent().contains('Excluir').click();
+});
