@@ -17,25 +17,27 @@ jobs:
       - name: 📦 Instalar dependências dos testes
         run: npm install
 
-      - name: 🔄 Clonar o sistema (helpdesk-api)
-        run: git clone https://github.com/automacaohml/helpdesk-page.git helpdesk-api
+      - name: 🔄 Clonar o sistema (helpdesk-page)
+        run: git clone https://github.com/automacaohml/helpdesk-page.git helpdesk-page
 
       - name: 📦 Instalar dependências do sistema
-        working-directory: helpdesk-api
+        working-directory: helpdesk-page
         run: npm install
 
       - name: 🚀 Iniciar API do sistema
-        working-directory: helpdesk-api
+        working-directory: helpdesk-page
         run: |
           node server.cjs &
         env:
           CI: true
 
+      - name: 🌐 Instalar http-server localmente
+        run: npm install http-server
+
       - name: 🌐 Servir a página HTML do sistema
-        working-directory: helpdesk-api
+        working-directory: helpdesk-page/view
         run: |
-          npm install -g http-server
-          http-server ./view -p 5500 &
+          npx http-server -p 5500 &
         env:
           CI: true
 
@@ -43,6 +45,5 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           wait-on: |
-            http://localhost:3000
-            http://localhost:5500/view/
+            http://127.0.0.1:5500
           wait-on-timeout: 60

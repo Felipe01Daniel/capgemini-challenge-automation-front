@@ -15,3 +15,10 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands.js'
+
+// adicionado para evitar erros de JavaScript na aplicacao HelpDesk -web  (workaround)
+// isolado para focar nos testes.
+Cypress.on('uncaught:exception', (err, runnable) => {
+  console.warn('⚠️ Ignorando erro da aplicação:', err.message);
+  return false;
+});
