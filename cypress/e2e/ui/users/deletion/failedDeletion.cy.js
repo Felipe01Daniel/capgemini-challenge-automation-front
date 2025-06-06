@@ -1,4 +1,4 @@
-import { UserPage } from '../../../support/pages/userPage';
+import { UserPage } from '../../../../support/pages/userPage';
 
 describe('Exclusão de Usuário - Sucesso', () => {
   const userPage = new UserPage();

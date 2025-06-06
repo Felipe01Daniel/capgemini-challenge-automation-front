@@ -1,4 +1,4 @@
-import { UserPage } from '../../../support/pages/userPage';
+import { UserPage } from '@pages/userPage.js';
 
 describe('Busca de Usuário - Sucesso', () => {
   const userPage = new UserPage();

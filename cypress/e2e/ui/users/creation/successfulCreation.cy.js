@@ -1,4 +1,4 @@
-import { UserPage } from '../../../support/pages/userPage';
+import { UserPage } from '@pages/userPage.js';
 
 describe('Criação de Usuário - Sucesso', () => {
   const userPage = new UserPage();
@@ -15,5 +15,5 @@ describe('Criação de Usuário - Sucesso', () => {
     userPage.searchUser(nome);
     userPage.validateUserExistence(nome, true);
   });
-  
+
 });
