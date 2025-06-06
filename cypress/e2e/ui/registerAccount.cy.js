@@ -1,25 +1,24 @@
+import { faker } from '@faker-js/faker';
+
 describe('Registro - Sucesso', () => {
+  let nome, email, senha;
+
   beforeEach(() => {
-    cy.visit('/signUp.html');  // ajuste para a url real do seu registro
+    nome = faker.person.fullName();
+    email = faker.internet.email();
+    senha = faker.internet.password({ length: 12 });
+
+    cy.visit('/signUp.html');
   });
 
   it('Deve registrar um novo usuário com sucesso', () => {
-    // Preencher o campo nome (input com id="name")
-    cy.get('[for="name"]').type('Fulano de Talfd');
+    cy.get('[for="name"]').type(nome);
+    cy.get('[for="email"]').type(email);
+    cy.get('[for="psw"]').type(senha);
 
-    // Preencher o campo email (input com id="email")
-    cy.get('[for="email"]').type('fulano@exampflde.com');
-
-    // Preencher o campo senha (input com id="psw")
-    cy.get('[for="psw"]').type('senhaSegura123');
-
-    // Clicar no botão para enviar o formulário
     cy.get('button').click();
 
-    // Validar que após o registro, o usuário foi redirecionado ou aparece mensagem de sucesso
-    cy.url().should('not.include', '/user.html'); // exemplo: url mudou
-
-    // Ou validar que existe um botão Logout, indicando que está logado
+    cy.url().should('not.include', '/user.html');
     cy.get('button').contains('Logout').should('exist');
   });
 });
