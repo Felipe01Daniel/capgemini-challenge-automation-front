@@ -1,0 +1,48 @@
+name: Cypress Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout dos testes
+        uses: actions/checkout@v3
+
+      - name: 📦 Instalar dependências dos testes
+        run: npm install
+
+      - name: 🔄 Clonar o sistema (helpdesk-api)
+        run: git clone https://github.com/automacaohml/helpdesk-page.git helpdesk-api
+
+      - name: 📦 Instalar dependências do sistema
+        working-directory: helpdesk-api
+        run: npm install
+
+      - name: 🚀 Iniciar API do sistema
+        working-directory: helpdesk-api
+        run: |
+          node server.cjs &
+        env:
+          CI: true
+
+      - name: 🌐 Servir a página HTML do sistema
+        working-directory: helpdesk-api
+        run: |
+          npm install -g http-server
+          http-server ./view -p 5500 &
+        env:
+          CI: true
+
+      - name: 🧪 Executar testes Cypress
+        uses: cypress-io/github-action@v6
+        with:
+          wait-on: |
+            http://localhost:3000
+            http://localhost:5500/view/
+          wait-on-timeout: 60
