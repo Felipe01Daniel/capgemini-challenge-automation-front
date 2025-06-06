@@ -14,7 +14,7 @@ module.exports = defineConfig({
   },
 
   e2e: {
-    baseUrl: 'http://localhost:5500/view',
+    baseUrl: 'http://127.0.0.1:5500',
     testIsolation: false,
 
     setupNodeEvents(on, config) {
