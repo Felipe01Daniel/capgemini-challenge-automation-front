@@ -8,7 +8,7 @@ describe('Busca de Usuário - Sucesso', () => {
     cy.fixture('users/validUser').as('validUser');
   });
 
-  it('Deve pesquisar e validar um usuário específico', function () {
+  it('Pesquisar e validar usuário existente', function () {
     const nomeUsuario = this.validUser.nome;
     userPage.searchUser(nomeUsuario);
     userPage.validateUserExistence(nomeUsuario, true);

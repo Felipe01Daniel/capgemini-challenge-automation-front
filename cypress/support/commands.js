@@ -1,2 +1,1 @@
-import './commands/userCommands.js';
-import './commands/ticketCommands.js';
+import './commands/index.js';

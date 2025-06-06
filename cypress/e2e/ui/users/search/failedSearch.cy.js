@@ -8,7 +8,7 @@ describe('Busca de Usuário - Sucesso', () => {
     cy.fixture('users/editUser').as('editUser');
   });
 
-  it('Deve falhar ao pesquisar um usuário específico', function () {
+  it('Pesquisar usuário inexistente', function () {
     const nomeUsuario = this.editUser.nome;
     userPage.searchUser(nomeUsuario);
     userPage.validateUserExistence(nomeUsuario, false);
