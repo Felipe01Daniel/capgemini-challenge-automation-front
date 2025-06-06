@@ -2,11 +2,14 @@ import { UserPage } from '../pages/userPage.js';
 
 Cypress.Commands.add('deleteUserByName', (name) => {
   const userPage = new UserPage();
-  userPage.searchUser(name);
-  userPage.validateUserExistence(name, true);
-  userPage.deleteUser(name);
-  userPage.searchUser(name);
-  userPage.validateUserExistence(name, false);
+
+  return cy.wait(500) // espera antes de iniciar
+    .then(() => userPage.searchUser(name))
+    .then(() => userPage.validateUserExistence(name, true))
+    .then(() => userPage.deleteUser(name))
+    .then(() => cy.wait(500)) // espera antes de buscar novamente
+    .then(() => userPage.searchUser(name))
+    .then(() => userPage.validateUserExistence(name, false));
 });
 
 Cypress.Commands.add('createUser', (name, email) => {
@@ -19,10 +22,11 @@ Cypress.Commands.add('createUser', (name, email) => {
 
 Cypress.Commands.add('editUserByName', (oldName, newName, newEmail) => {
   const userPage = new UserPage();
-  userPage.searchUser(oldName);
-  userPage.validateUserExistence(oldName, true);
-  userPage.editUser(oldName, newName, newEmail);
-  userPage.searchUser(newName);
-  userPage.validateUserExistence(newName, true);
-  userPage.validateUserExistence(oldName, false); // Verifica que o antigo não existe mais
+
+  return userPage.searchUser(oldName)
+    .then(() => userPage.validateUserExistence(oldName, true))
+    .then(() => userPage.editUser(oldName, newName, newEmail))
+    .then(() => userPage.searchUser(newName))
+    .then(() => userPage.validateUserExistence(newName, true))
+    .then(() => userPage.validateUserExistence(oldName, false));
 });

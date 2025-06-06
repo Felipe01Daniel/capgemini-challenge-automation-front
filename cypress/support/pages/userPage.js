@@ -83,68 +83,79 @@ export class UserPage {
   }
 
   deleteUser(name) {
-    this.getUserCardByName(name).then(cards => {
+    return this.getUserCardByName(name).then(cards => {
       if (!cards.length) {
         throw new Error(`❌ Usuário "${name}" não encontrado para exclusão.`);
       }
-      this.elements.deleteButton(cards[0]).click();
+      return this.elements.deleteButton(cards[0])
+        .should('be.visible')
+        .scrollIntoView()
+        .click({ force: true });
     });
   }
 
   editUser(oldName, newName, newEmail) {
-    this.getUserCardByName(oldName).then(cards => {
+    return this.getUserCardByName(oldName).then(cards => {
       if (!cards.length) {
         throw new Error(`❌ Usuário "${oldName}" não encontrado para edição.`);
       }
-      this.elements.editButton(cards[0]).click();
-      this.elements.nameInput().clear().type(newName);
-      this.elements.emailInput().clear().type(newEmail);
-      this.elements.modalButton().click();
+      // Garante visibilidade, scroll e clique forçado
+      return this.elements.editButton(cards[0])
+        .should('be.visible')
+        .scrollIntoView()
+        .click({ force: true })
+        .then(() => {
+          // Depois que abrir o modal, preenche os inputs
+          this.elements.nameInput().should('be.visible').clear().type(newName);
+          this.elements.emailInput().clear().type(newEmail);
+          this.elements.modalButton().click();
+        });
     });
   }
 
-validateEmailErrorMessage(expectedMessage, timeout = 4000) {
-  return this.elements.emailInput()
-    .should('be.visible')
-    .then(($input) => {
-      const nativeValidationMessage = $input[0].validationMessage || '';
 
-      if (typeof expectedMessage === 'string'
+  validateEmailErrorMessage(expectedMessage, timeout = 4000) {
+    return this.elements.emailInput()
+      .should('be.visible')
+      .then(($input) => {
+        const nativeValidationMessage = $input[0].validationMessage || '';
+
+        if (typeof expectedMessage === 'string'
           ? nativeValidationMessage.includes(expectedMessage)
           : expectedMessage.test(nativeValidationMessage)) {
-        cy.log('SUCESSO: Mensagem de validação encontrada via API nativa');
-        cy.log(`Mensagem nativa: "${nativeValidationMessage}"`);
-        return cy.wrap('native');
-      }
+          cy.log('SUCESSO: Mensagem de validação encontrada via API nativa');
+          cy.log(`Mensagem nativa: "${nativeValidationMessage}"`);
+          return cy.wrap('native');
+        }
 
-      return cy.get('[data-testid="email-error"], .error-message, [role="alert"]', { timeout })
-        .should('be.visible')
-        .then(($error) => {
-          const errorText = $error.text().replace(/\s+/g, ' ').trim();
+        return cy.get('[data-testid="email-error"], .error-message, [role="alert"]', { timeout })
+          .should('be.visible')
+          .then(($error) => {
+            const errorText = $error.text().replace(/\s+/g, ' ').trim();
 
-          try {
-            if (typeof expectedMessage === 'string') {
-              expect(errorText).to.include(expectedMessage);
-            } else {
-              expect(errorText).to.match(expectedMessage);
+            try {
+              if (typeof expectedMessage === 'string') {
+                expect(errorText).to.include(expectedMessage);
+              } else {
+                expect(errorText).to.match(expectedMessage);
+              }
+              cy.log('SUCESSO: Mensagem de validação encontrada na UI');
+              cy.log(`Mensagem UI: "${errorText}"`);
+              return cy.wrap('ui');
+            } catch (error) {
+              cy.log('ERRO: Falha na validação da mensagem de erro');
+              cy.log(`Mensagem esperada: "${expectedMessage}"`);
+              cy.log(`Mensagem nativa: "${nativeValidationMessage || 'Não encontrada'}"`);
+              cy.log(`Mensagem UI: "${errorText || 'Não encontrada'}"`);
+              throw error;
             }
-            cy.log('SUCESSO: Mensagem de validação encontrada na UI');
-            cy.log(`Mensagem UI: "${errorText}"`);
-            return cy.wrap('ui');
-          } catch (error) {
-            cy.log('ERRO: Falha na validação da mensagem de erro');
-            cy.log(`Mensagem esperada: "${expectedMessage}"`);
-            cy.log(`Mensagem nativa: "${nativeValidationMessage || 'Não encontrada'}"`);
-            cy.log(`Mensagem UI: "${errorText || 'Não encontrada'}"`);
-            throw error;
-          }
-        });
-    })
-    .then(() => {
-      cy.wait(500);
-      this.elements.closeButton()
-        .should('be.visible')
-        .click({ delay: 10000 });
-    });
-}
+          });
+      })
+      .then(() => {
+        cy.wait(500);
+        this.elements.closeButton()
+          .should('be.visible')
+          .click({ delay: 10000 });
+      });
+  }
 }
