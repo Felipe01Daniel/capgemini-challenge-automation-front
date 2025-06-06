@@ -14,3 +14,8 @@ yarn-error.log
 
 # Arquivos de dependências do npm
 package-lock.json
+
+# Cypress artifacts
+cypress/videos/
+cypress/screenshots/
+cypress/reports/

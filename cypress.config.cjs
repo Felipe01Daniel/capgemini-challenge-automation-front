@@ -5,6 +5,14 @@ const path = require('path');
 module.exports = defineConfig({
   chromeWebSecurity: false,
 
+  reporter: 'mochawesome', // adiciona o mochawesome como reporter
+  reporterOptions: {
+    reportDir: 'cypress/reports/mochawesome-report', // pasta dos relatórios
+    overwrite: false,    // não sobrescrever relatórios anteriores
+    html: true,         // desabilita relatório html direto (geramos depois)
+    json: true,          // gera arquivos json (para merge)
+  },
+
   e2e: {
     baseUrl: 'http://localhost:5500/view',
     testIsolation: false,
@@ -34,7 +42,7 @@ module.exports = defineConfig({
         },
       }));
 
-      // Eventos úteis
+      // Logs após a execução dos testes
       on('after:run', (results) => {
         console.log('⚙️ Todos os testes foram executados.');
         console.log(`✅ Passaram: ${results.totalPassed}`);
@@ -57,7 +65,7 @@ module.exports = defineConfig({
 
   defaultCommandTimeout: 8000,
   pageLoadTimeout: 60000,
-  video: true,
+  video: false,
   screenshotOnRunFailure: true,
   viewportWidth: 1280,
   viewportHeight: 800,
