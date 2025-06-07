@@ -1,4 +1,4 @@
-import { TicketPage } from '@pages/ticketPage.js';
+import { TicketPage } from '@pages/TicketPage.js';
 describe('Exclusão de Ticket - Sucesso', () => {
   const ticketPage = new TicketPage();
 

@@ -1,4 +1,4 @@
-import { TicketPage } from '@pages/ticketPage.js';
+import { TicketPage } from '@pages/TicketPage.js';
 
 describe('Validação de Filtro - Status Open', () => {
   const ticketPage = new TicketPage();

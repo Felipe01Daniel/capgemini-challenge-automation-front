@@ -1,4 +1,4 @@
-import { UserPage } from '../pages/userPage.js';
+import { UserPage } from '../pages/UserPage.js';
 
 Cypress.Commands.add('deleteUserByName', (name) => {
   const userPage = new UserPage();

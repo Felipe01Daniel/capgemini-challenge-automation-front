@@ -1,4 +1,4 @@
-import { UserPage } from '@pages/userPage.js';
+import { UserPage } from '@pages/UserPage.js';
 
 describe('Fluxo Completo de Usuário', () => {
     const userPage = new UserPage();

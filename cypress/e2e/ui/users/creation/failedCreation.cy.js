@@ -1,4 +1,4 @@
-import { UserPage } from '@pages/userPage.js';
+import { UserPage } from '@pages/UserPage.js';
 
 describe('Criação de Usuário - Falha', () => {
   const userPage = new UserPage();
